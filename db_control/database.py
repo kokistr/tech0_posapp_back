@@ -25,7 +25,10 @@ if not all([DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD]):
     raise ValueError("❌ [環境変数エラー] 必須のデータベース接続情報が設定されていません。Azureポータルの環境変数を確認してください。")
 
 # データベース URL を作成
-DATABASE_URL = f"mysql+mysqlconnector://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+DATABASE_URL = (
+    f"mysql+mysqlconnector://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+    f"?ssl_ca={DB_SSL_CERT}"
+)
 
 # デバッグ用の出力（パスワードはマスク）
 print("🔍 [環境変数チェック]")
