@@ -11,36 +11,20 @@ load_dotenv()
 # FastAPI インスタンス作成
 app = FastAPI()
 
-# 追加 20250213
-@app.on_event("startup")
-def startup_event():
-    print("DB Initialization...")
-    models.Base.metadata.create_all(bind=database.engine)
+allowed_origins = os.getenv("ALLOWED_ORIGINS", "").split(",")
 
-# CORS設定（フロントエンドのアクセス許可）
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "https://tech0-gen8-step4-pos-app-3.azurewebsites.net",
-        "https://tech0-gen-8-step4-db-1.mysql.database.azure.com",
-        "http://localhost:3000"  # ローカル開発確認用
-    ],
+    allow_origins=["https://tech0-gen8-step4-pos-app-3.azurewebsites.net"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# データベースのチェックと初期化
-DB_URL = os.getenv("DATABASE_URL")
-if not DB_URL:
-    raise RuntimeError("DATABASE_URL is not set. Please configure environment variables.")
+# DB初期化
+models.Base.metadata.create_all(bind=database.engine)
 
-@app.on_event("startup")
-def startup_event():
-    print("DB Initialization...")
-    models.Base.metadata.create_all(bind=database.engine)
-
-# ルーター追加
+# ルーターを追加
 app.include_router(users.router)
 app.include_router(products.router)
 app.include_router(transactions.router)
@@ -59,8 +43,3 @@ def read_user(user_id: int, db: Session = Depends(database.get_db)):
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not found")
     return db_user
-
-# サーバーの起動
-if __name__ == "__main__":
-    port = int(os.getenv("PORT", 8000))
-    uvicorn.run(app, host="0.0.0.0", port=port)
