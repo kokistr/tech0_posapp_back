@@ -1,4 +1,4 @@
-# Step04-solo-back
+# tech0_posapp_back
 
 - python3 -m venv venv
 - source venv/bin/activate
