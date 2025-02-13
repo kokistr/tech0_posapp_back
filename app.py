@@ -6,7 +6,7 @@ from db_control.routers import users, products, transactions
 import os
 from dotenv import load_dotenv
 
-# 環境変数の読み込み！
+# 環境変数の読み込み
 load_dotenv()
 
 # FastAPI インスタンス作成
