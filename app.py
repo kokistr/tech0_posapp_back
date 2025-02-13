@@ -16,6 +16,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "https://tech0-gen8-step4-pos-app-3.azurewebsites.net",
+        "https://tech0-gen-8-step4-db-1.mysql.database.azure.com"
         "http://localhost:3000"  # ローカル開発確認用
     ],
     allow_credentials=True,
@@ -41,7 +42,7 @@ def root():
     """ サーバーの動作確認エンドポイント """
     return {"message": "Welcome to FastAPI with Azure DB!"}
 
-## 🧑‍💼 ユーザー管理API
+## ユーザー管理API
 @app.post("/users/", response_model=schemas.UserResponse)
 def create_user(user: schemas.UserCreate, db: Session = Depends(database.get_db)):
     """ ユーザーを新規登録するエンドポイント """
