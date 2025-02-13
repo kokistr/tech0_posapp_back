@@ -71,3 +71,7 @@ def read_user(user_id: int, db: Session = Depends(database.get_db)):
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not found")
     return db_user
+
+if __name__ == "__main__":
+    port = int(os.getenv("PORT", 8000))  # Azureのデフォルトポート8000を使用
+    uvicorn.run(app, host="0.0.0.0", port=port)
