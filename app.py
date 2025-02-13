@@ -16,7 +16,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "https://tech0-gen8-step4-pos-app-3.azurewebsites.net",
-        "http://localhost:3000"  # ←ローカル開発確認用
+        "http://localhost:3000"  # ローカル開発確認用
     ],
     allow_credentials=True,
     allow_methods=["*"],
